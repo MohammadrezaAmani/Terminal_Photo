@@ -51,6 +51,8 @@ class Photo:
         if type(size) == str:
             if size.find('*') != -1:
                 self.__size = size
+                self.__height = size.split('*')[1]
+                self.__width = size.split('*')[0]
             else:
                 print("size must be a string in format 'width*height' exapmle: '30*50'")
         else:
@@ -100,7 +102,8 @@ class Photo:
 
     #-----------------functions-----------------
     # func: set color of pixel in photo
-    def setColor(r, g, b, text=' ', position=48):
+    def setColor(self,r, g, b, text=' ', position=48):
+
         """this function get the color of each pixel in photo and
            set it to the color of the word in text
 
@@ -141,8 +144,7 @@ class Photo:
         self.fileName = fileName
         # write to file
         file.write('#!/bin/bash\n')
-        file.write('clear\n')
-        file.write('echo -e "')
+        file.write('\n')
         # read photo
         img = self.imageProccing()
         # front or background
@@ -152,13 +154,13 @@ class Photo:
             position = 48
         # for each pixel in photo
         for i in range(len(img)):
+            file.write('echo "')
             for j in range(len(img[i])):
                 # set color of pixel
-                img[i][j] = self.setColor(img[i][j][0], img[i][j][1], img[i][j][2], self.__text[i*len(img[i])+j], position)
+                file.write(self.setColor(
+                    img[i][j][0], img[i][j][1], img[i][j][2], self.__text[j%len(self.__text)], position))
             # write to file
-            file.write(img[i])
-        # close file
-        file.write('"\n')
+            file.write('"\n')
         file.close()
     # func: run file
     def runFile(self):
@@ -168,12 +170,35 @@ class Photo:
         if os.name == 'posix':
             #clear screen
             os.system('clear')
+            path = os.getcwd() + '/' + self.fileName
             os.system('chmod +x ' + self.fileName)
-            os.system(self.fileName)
+            os.system(path)
         #if in system == windows
         else:
             os.system('cls')
             with open(self.fileName, 'r') as file:
                 os.system(file.read())
 
+#-----------------------------example---------------------------------
 
+
+def example():
+    """this function run the project
+    """
+    # create object of class
+    obj = Photo()
+    # set path of photo
+    obj.setPath('Example.jpg')
+    # set text to be shown
+    obj.setText('MohammadrezaAmani')
+    # set size of photo
+    obj.setSize('100*60')
+    # set front or background
+    obj.setFront(False)
+    # create file and write text in it
+    obj.saveFile()
+    # run file
+    obj.runFile()
+
+
+example()
