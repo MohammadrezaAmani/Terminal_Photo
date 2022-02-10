@@ -125,7 +125,7 @@ class Photo:
         return '\033[{};2;{};{};{}m'.format(position, r, g, b) + text + '\033[0m'
     # func: Image Processing
 
-    def imageProccing(self):
+    def imageProcessing(self):
         """this function read the photo, resize it and convert it to numpy array
 
         Returns:
@@ -153,7 +153,7 @@ class Photo:
         file.write('#!/bin/bash\n')
         file.write('\n')
         # read photo
-        img = self.imageProccing()
+        img = self.imageProcessing()
         # front or background
         if self.__front:
             position = 38
