@@ -1,3 +1,9 @@
+#---------------------------show photo in terminal----------------------------
+# author: Mohammadreza Amani
+# GitHub: https://www.github.com/MohammadrezaAmani
+# Linkedin: https://www.linkedin.com/in/mohammadreza-amani/
+# Date: 2021/11/18
+
 #---------------------------------logic----------------------------------------
 #   1- read photo
 #   2- resize photo
@@ -102,8 +108,7 @@ class Photo:
 
     #-----------------functions-----------------
     # func: set color of pixel in photo
-    def setColor(self,r, g, b, text=' ', position=48):
-
+    def setColor(self, r, g, b, text=' ', position=48):
         """this function get the color of each pixel in photo and
            set it to the color of the word in text
 
@@ -119,6 +124,7 @@ class Photo:
         """
         return '\033[{};2;{};{};{}m'.format(position, r, g, b) + text + '\033[0m'
     # func: Image Processing
+
     def imageProccing(self):
         """this function read the photo, resize it and convert it to numpy array
 
@@ -133,6 +139,7 @@ class Photo:
         img = asarray(img)
         return img
     # func: create file and write text in it
+
     def saveFile(self, fileName='file.sh'):
         """this function save the file as .sh file
 
@@ -158,11 +165,12 @@ class Photo:
             for j in range(len(img[i])):
                 # set color of pixel
                 file.write(self.setColor(
-                    img[i][j][0], img[i][j][1], img[i][j][2], self.__text[j%len(self.__text)], position))
+                    img[i][j][0], img[i][j][1], img[i][j][2], self.__text[j % len(self.__text)], position))
             # write to file
             file.write('"\n')
         file.close()
     # func: run file
+
     def runFile(self):
         """ function to run the project
         """
