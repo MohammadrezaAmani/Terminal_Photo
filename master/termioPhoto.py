@@ -36,18 +36,18 @@ class Photo:
 
     #------------setters------------
     # 1. path setter
-    def set_path(self, path):
+    def setPath(self, path):
         if type(path) == str:
             self.__path = path
         else:
             print("path must be a string")
     # 2. text setter
 
-    def set_text(self, text):
+    def setText(self, text):
         self.__text = str(text)
     # 3. size setter
 
-    def set_size(self, size):
+    def setSize(self, size):
         if type(size) == str:
             if size.find('*') != -1:
                 self.__size = size
@@ -57,50 +57,50 @@ class Photo:
             print("size must be a string")
     # 4. front setter (True or False)
 
-    def set_front(self, front):
+    def setFront(self, front):
         if type(front) == bool:
             self.__front = front
         else:
             print("front must be a boolean")
     # 5.height settter
 
-    def set_height(self, height):
+    def setHeight(self, height):
         if type(height) == float or type(height) == int:
             self.__height = height
     # 6. width setter
 
-    def set_width(self, width):
+    def setWidth(self, width):
         if type(width) == float or type(width) == int:
             self.__width = width
     #-----------------getters-----------------
     # 1. path getter
 
-    def get_path(self):
+    def getPath(self):
         return self.__path
     # 2. text getter
 
-    def get_text(self):
+    def getText(self):
         return self.__text
     # 3. size getter
 
-    def get_size(self):
+    def getSize(self):
         return self.__size
     # 4. front getter
 
-    def get_front(self):
+    def getFront(self):
         return self.__front
     # 5. height getter
 
-    def get_height(self):
+    def getHeight(self):
         return self.__height
     # 6. width getter
 
-    def get_width(self):
+    def getWidth(self):
         return self.__width
-    
+
     #-----------------functions-----------------
-    # set color of pixel in photo
-    def set_color(r, g, b, text = ' ', position = 48):
+    # func: set color of pixel in photo
+    def setColor(r, g, b, text=' ', position=48):
         """this function get the color of each pixel in photo and
            set it to the color of the word in text
 
@@ -114,4 +114,66 @@ class Photo:
         Returns:
             [str]: [color and text of pixel]
         """
-        return '\033[{};2;{};{};{}m'.format(position,r, g, b) + text + '\033[0m'
+        return '\033[{};2;{};{};{}m'.format(position, r, g, b) + text + '\033[0m'
+    # func: Image Processing
+    def imageProccing(self):
+        """this function read the photo, resize it and convert it to numpy array
+
+        Returns:
+            [numpy array]: [numpy array of photo]
+        """
+        # read photo
+        img = Image.open(self.__path)
+        # resize photo
+        img = img.resize((int(self.__width), int(self.__height)))
+        # convert photo to numpy array
+        img = asarray(img)
+        return img
+    # func: create file and write text in it
+    def saveFile(self, fileName='file.sh'):
+        """this function save the file as .sh file
+
+        Args:
+            fileName (str, optional): [file name]. Defaults to 'file.sh'.
+        """
+        # open file
+        file = open(fileName, 'w')
+        self.fileName = fileName
+        # write to file
+        file.write('#!/bin/bash\n')
+        file.write('clear\n')
+        file.write('echo -e "')
+        # read photo
+        img = self.imageProccing()
+        # front or background
+        if self.__front:
+            position = 38
+        else:
+            position = 48
+        # for each pixel in photo
+        for i in range(len(img)):
+            for j in range(len(img[i])):
+                # set color of pixel
+                img[i][j] = self.setColor(img[i][j][0], img[i][j][1], img[i][j][2], self.__text[i*len(img[i])+j], position)
+            # write to file
+            file.write(img[i])
+        # close file
+        file.write('"\n')
+        file.close()
+    # func: run file
+    def runFile(self):
+        """ function to run the project
+        """
+        #if in system == linux
+        if os.name == 'posix':
+            #clear screen
+            os.system('clear')
+            os.system('chmod +x ' + self.fileName)
+            os.system(self.fileName)
+        #if in system == windows
+        else:
+            os.system('cls')
+            with open(self.fileName, 'r') as file:
+                os.system(file.read())
+
+
