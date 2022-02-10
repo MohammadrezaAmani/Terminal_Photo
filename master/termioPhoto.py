@@ -18,6 +18,15 @@ from numpy import asarray
 
 class Photo:
     def __init__(self, path='IMG.jpg', text=" ", size='30*50', front=False):
+        """Photo class constructor
+        this class get some parameters and set and use them to create a colored text from photo
+
+        Args:
+            path (str, optional): [path of image]. Defaults to 'IMG.jpg'.
+            text (str, optional): text to be shown in foreground. Defaults to " ".
+            size (str, optional): text of image in width*height format, example = 30*50. Defaults to '30*50'.
+            front (bool, optional): ro set color in background = False, in foreground = True. Defaults to False.
+        """
         self.__path = path
         self.__text = text
         self.__size = size
@@ -89,3 +98,20 @@ class Photo:
     def get_width(self):
         return self.__width
     
+    #-----------------functions-----------------
+    # set color of pixel in photo
+    def set_color(r, g, b, text = ' ', position = 48):
+        """this function get the color of each pixel in photo and
+           set it to the color of the word in text
+
+        Args:
+            r ([int]): [red color]
+            g ([int]): [green color]
+            b ([int]): [blue color]
+            text (str, optional): [a char to be shown]. Defaults to ' '.
+            position (int, optional): [color is for foreground or background, forground = 38, background = 48 ]. Defaults to 48.
+
+        Returns:
+            [str]: [color and text of pixel]
+        """
+        return '\033[{};2;{};{};{}m'.format(position,r, g, b) + text + '\033[0m'
