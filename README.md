@@ -35,7 +35,7 @@ a class that can be used to show a photo in terminal
         # run file
         obj.runFile()
 > #### output
-![outputImage](https://github.com/MohammadrezaAmani/Terminal_Photo/blob/master/images/output.png)
+> ![outputImage](https://github.com/MohammadrezaAmani/Terminal_Photo/blob/master/images/output.png)
 
 ### functions 
 #### 1. setColor()
