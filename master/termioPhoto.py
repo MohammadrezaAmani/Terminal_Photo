@@ -198,9 +198,9 @@ def example():
     # set path of photo
     obj.setPath('Example.jpg')
     # set text to be shown
-    obj.setText('MohammadrezaAmani')
+    obj.setText(' ')
     # set size of photo
-    obj.setSize('100*60')
+    obj.setSize('300*100')
     # set front or background
     obj.setFront(False)
     # create file and write text in it
