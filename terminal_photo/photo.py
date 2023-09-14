@@ -34,6 +34,7 @@ class Photo:
         self.text = text
         self.size = size
         self.front = front
+        self.mode = mode
 
     @property
     def path(self):
@@ -97,6 +98,8 @@ class Photo:
 
     @size.setter
     def size(self, size_value: str):
+        if type(size_value) in [tuple, list, set]:
+            size_value = "*".join([str(i) for i in size_value])
         if size_value is None:
             self._size = "30*50"
             self.width = 30
@@ -157,10 +160,12 @@ class Photo:
 
     def set_color_html(self, r, g, b, text=" ", position=48):
         if position == 38:
-            return "<span style='color:rgb({},{},{})'>{}</span>".format(r, g, b, text)
+            return "<span style='color:rgb({},{},{});background-color:rgb({},{},{})'>{}</span>".format(
+                r, g, b, 255 - r, 255 - g, 255 - b, text
+            )
         else:
-            return "<span style='background-color:rgb({},{},{})'>{}</span>".format(
-                r, g, b, text
+            return "<span style='background-color:rgb({},{},{}); color:rgb({},{},{})'>{}</span>".format(
+                r, g, b, 255 - r, 255 - g, 255 - b, text
             )
 
     def process_image(self):
