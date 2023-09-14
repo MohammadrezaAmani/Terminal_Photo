@@ -17,7 +17,6 @@
 #import modules
 import os
 from PIL import Image
-from numpy import asarray
 
 #--------------------------create class and functions---------------------------
 
@@ -135,8 +134,8 @@ class Photo:
         img = Image.open(self.__path)
         # resize photo
         img = img.resize((int(self.__width), int(self.__height)))
-        # convert photo to numpy array
-        img = asarray(img)
+        # convert photo to array
+        img = list(img.getdata())
         return img
     # func: create file and write text in it
 
