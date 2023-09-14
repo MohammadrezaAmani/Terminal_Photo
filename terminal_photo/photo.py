@@ -20,7 +20,7 @@ from PIL import Image
 
 
 class Photo:
-    def __init__(self, path=None, text=None, size=None, front=False, mode="html"):
+    def __init__(self, path=None, text=None, size=None, front=False, mode="run"):
         """Photo class constructor
         this class get some parameters and set and use them to create a colored text from photo
 
